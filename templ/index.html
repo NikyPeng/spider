@@ -6,12 +6,235 @@
     <style type="text/css">
         *{margin: 0;padding: 0;}
         html,body{width: 100%;height: 100%;}
-        .content{width: 100%;height: 100%;background-color: rgba(68,68,68,.5);display: flex;justify-content: center;align-items: center;font: 18px arial,sans-serif;}
+        .flex{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .content{width: 100%;height: 100%;background-color: rgba(68,68,68,.5);font: 18px arial,sans-serif;}
+        .entry{
+            line-height: 30px;
+            text-align: center;
+        }
+        .entry > a{
+            padding: 0 15px;
+            text-decoration: none;
+            color: #48c7ca;
+            font-size: 15px;
+        }
+        .register, .login{
+            padding: 30px 15px;
+            border: 1px solid #48c7ca;
+            border-radius: 5px;
+            display: none;
+        }
+        .info{
+            height: 50px;
+            padding-right: 15px;
+        }
+        .info>span{
+            display: block;
+            width: 100px;
+            text-align: right;
+            margin-right: 15px;
+            font-size: 15px;
+            color: #4a4a4a;
+        }
+        .info>input{
+            display: block;
+            width: 230px;
+            padding-left: 10px;
+            height: 35px;
+            border: 1px solid #e8e8e8;
+            border-radius: 5px;
+            background: transparent;
+            outline: none;
+        }
+        .button{
+            margin-top: 20px;
+            justify-content: space-around;
+        }
+        .btn{
+            display: block;
+            width: 300px;
+            height: 40px;
+            outline: none;
+            border: none;
+            background-color: #48c7ca;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 20px;
+        }
+        .alert{
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: transparent;
+            display: none;
+        }
+        .error{
+            width: 300px;
+            padding: 25px 20px;
+            background-color: #ffffff;
+            border: 1px solid #e8e8e8;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .err_content{
+            min-height: 50px;
+        }
+        .confirm{
+            width: 80px;
+            height: 35px;
+            background-color: #48c7ca;
+            color: #ffffff;
+            font-size: 18px;
+        }
+        .cancel{
+            width: 80px;
+            height: 35px;
+            background-color: #9b9b9b;
+            color: #ffffff;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
-    <div class="content">
-        <h1>Welcome to Node study Groups</h1>
+    <div class="flex content">
+        <div class="inner">
+            <h1>Welcome to Node study Groups</h1>
+            <p class="entry">
+                <a class="toRegister" href="javascript:;">去注册</a>
+                <a class="toLogin" href="javascript:;">已有账号，去登陆</a>
+            </p>
+        </div>
+        <div class="register">
+            <p class="flex info">
+                <span>用户名：</span>
+                <input type="text" class="re_user_name" />
+            </p>
+            <p class="flex info">
+                <span>手机号：</span>
+                <input type="text" class="re_phone" />
+            </p>
+            <p class="flex info">
+                <span>密码：</span>
+                <input type="password" class="re_psw" />
+            </p>
+            <p class="flex info">
+                <span>确认密码：</span>
+                <input type="password" class="commit_psw" />
+            </p>
+            <p class="flex button">
+                <button class="btn registBtn">立即注册</button>
+            </p>
+        </div>
+        <div class="login">
+            <p class="flex info">
+                <span>用户名：</span>
+                <input type="text" class="user_name" />
+            </p>
+            <p class="flex info">
+                <span>密码：</span>
+                <input type="password" class="psw" />
+            </p>
+            <p class="flex button">
+                <button class="btn loginBtn">登陆</button>
+            </p>
+        </div>
+    </div>
+    <div class="content alert">
+        <div class="flex content">
+            <div class="error">
+                <div class="flex err_content">
+                    <p class="err_text"></p>
+                </div>
+                <p class="flex button">
+                    <button class="btn confirmBtn">确定</button>
+                </p>
+                <!--
+                <p class="flex button">
+                    <button class="btn confirm">确定</button>
+                    <button class="btn cancel">取消</button>
+                </p>
+                -->
+            </div>
+        </div>
     </div>
 </body>
+<script type="text/javascript" src="./js/app.js"></script>
+<!--<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>-->
+<script type="text/javascript">
+    (function(){
+        $('.toRegister').addEventListener('click',function(){
+            $('.inner').style.display = "none";
+            $('.register').style.display = "block";
+        });
+        $('.toLogin').addEventListener('click', function(){
+            $('.inner').style.display = "none";
+            $('.login').style.display = "block";
+        });
+        $('.confirmBtn').addEventListener('click', function(){
+            $('.alert').style.display = "none";
+        });
+        $('.registBtn').addEventListener('click', function(){
+            var msg = null,
+                reg = new RegExp(/^1[3,5,7,8,9]\d{9}$/),
+                reg_psw = new RegExp(/(([a-zA-Z]+\d+)|(\d+[a-zA-Z]+))+/);
+            var name = $('.re_user_name').value.trim(),
+                phone = $('.re_phone').value.trim(),
+                psw = $('.re_psw').value.trim(),
+                commit_psw = $('.commit_psw').value.trim();
+            if(!name || name === ''){
+                msg = "请输入用户名！";
+            }else if(!phone || phone === ''){
+                msg = "请输入手机号！";
+            }else if(!reg.test(phone)){
+                msg = "请输入正确的手机号！";
+            }else if(!psw || psw === ''){
+                msg = "请输入密码！";
+            }else if(psw.length < 6 || psw.length > 16 || !reg_psw.test(psw)){
+                msg = "请输入6～16同时含有数字和字母的密码！";
+            }else if(psw !== commit_psw){
+                msg = "请输入相同的密码！";
+            }else{
+                var infos = {};
+                infos["user_name"] = name;
+                infos["mob_phone"] = phone;
+                infos["psw"] = psw;
+                ajax('/api/register', JSON.stringify(infos),'POST',function(res){
+                    console.log('===========res', res)
+                },function(err){
+                    console.log('===========err', err)
+                });
+                return;
+            }
+            $('.err_text').innerHTML = msg;
+            $('.alert').style.display = "block";
+        });
+        $('.loginBtn').addEventListener('click', function(){
+            var msg = null;
+            var name = $('.user_name').value.trim(),
+                psw = $('.psw').value.trim();
+            if(!name || name === ''){
+                msg = "请输入用户名！";
+            }else if(!psw || psw === ''){
+                msg = "请输入密码！";
+            }else{
+                var infos = {};
+                infos["user_name"] = name;
+                infos["psw"] = psw;
+                ajax('/api/login', JSON.stringify(infos),'POST',function(res){
+                    console.log('===========res', res)
+                },function(err){
+                    console.log('===========err', err)
+                });
+                return;
+            }
+            $('.err_text').innerHTML = msg;
+            $('.alert').style.display = "block";
+        });
+    })()
+</script>
 </html>
