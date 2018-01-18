@@ -14,29 +14,28 @@ module.exports = {
             try{
                 const user = await Users.findOne({user_name: user_name});
                 if(user){
-                    console.log(user)
                     if(user.psw === psw){
                         res.send({
                             status: 200,
                             type: 'FIND_USER_SUCCESS',
                             message: '登陆成功',
-                            body: {uuid: user.uuid},
+                            body: {uuid: user.uuid,user_name: user_name},
                             success: true,
                         });
                     }else{
                         res.send({
                             status: 300,
                             type: 'PSW_IS_ERROR',
-                            message: '登陆密码错误',
+                            message: '用户名或密码不正确',
                             body: null,
                             success: false,
                         });
                     }
                 }else{
                     res.send({
-                        status: 400,
-                        type: 'FIND_USER_FAILED',
-                        message: '用户名或密码不正确',
+                        status: 404,
+                        type: 'USER_NOT_EXIST',
+                        message: '用户不存在',
                         body: null,
                         success: false,
                     })

@@ -41,9 +41,9 @@ function ajax(url, data, method, successCallBack, failCallBack){
         req.onreadystatechange = function(){
             if(req.readyState == 4){
                 if(req.status == 200){
-                    successCallBack(req.responseText)
+                    successCallBack(JSON.parse(req.responseText))
                 }else{
-                    failCallBack(req.responseText)
+                    failCallBack(JSON.parse(req.responseText))
                 }
             }
         }
@@ -57,4 +57,10 @@ function ajax(url, data, method, successCallBack, failCallBack){
                 break;
         }*/
     }
+}
+
+function _md5(str){
+    var psw = hex_md5(str + 's^H8').toUpperCase();
+    psw = hex_md5(psw.slice(0,5)+psw).toUpperCase();
+    return psw;
 }

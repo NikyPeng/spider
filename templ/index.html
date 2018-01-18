@@ -99,6 +99,7 @@
             font-size: 18px;
         }
     </style>
+    <script type="text/javascript" src="./js/md5.js"></script>
 </head>
 <body>
     <div class="flex content">
@@ -202,9 +203,13 @@
                 var infos = {};
                 infos["user_name"] = name;
                 infos["mob_phone"] = phone;
-                infos["psw"] = psw;
+                infos["psw"] = _md5(psw);
                 ajax('/api/register', JSON.stringify(infos),'POST',function(res){
                     console.log('===========res', res)
+                    if(res.success){
+                        $('.register').style.display = "none";
+                        $('.login').style.display = "block";
+                    }
                 },function(err){
                     console.log('===========err', err)
                 });
@@ -224,9 +229,16 @@
             }else{
                 var infos = {};
                 infos["user_name"] = name;
-                infos["psw"] = psw;
+                infos["psw"] = _md5(psw);
                 ajax('/api/login', JSON.stringify(infos),'POST',function(res){
                     console.log('===========res', res)
+                    if(res.success){
+                        $('.err_text').innerHTML = res.body.user_name + ",Welcome to China!";
+                        $('.alert').style.display = "block";
+                    }else if(res.status === 404){
+                        $('.err_text').innerHTML = "此用户不存在，请先去注册！";
+                        $('.alert').style.display = "block";
+                    }
                 },function(err){
                     console.log('===========err', err)
                 });

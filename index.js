@@ -6,6 +6,7 @@ const db = require('./mongodb/dbconnect');
 const connectMongo = require('connect-mongo');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+//const bodyParser = require('body-parser');      //express middleware to populate req.body
 const history = require('connect-history-api-fallback');
 const config = require('./config/index');
 const router = require('./router/index');
@@ -28,6 +29,9 @@ app.all('*', (req, res, next) => {
         next()
     }
 });
+
+//app.use(bodyParser.json());      //for parsing application/json
+//app.use(bodyParser.urlencoded({extended: true}));      //for parsing application/x-www-form-urlencoded
 
 app.use(cookieParser());
 app.use(session({
