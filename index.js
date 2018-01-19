@@ -13,6 +13,8 @@ const router = require('./router/index');
 const http = require('http');
 const path = require('path');
 const fs = require('fs');
+const schedule = require('node-schedule');                      //定时器
+const spider = require('./spider/spider');                      //爬虫
 const options = {host: '10.20.7.31',port: config.dev.port}
 const app = express();
 const MongoStore = connectMongo(session);
@@ -57,6 +59,16 @@ app.use(history());
             res.end();
         })
     });*/
+const _spider = spider({host: 'http://zu.house.163.com',uri: "/bj/search/0-0-0-0-0-0-0-0-0-0-0-0.html", page: 100});     //http://www.ziroom.com/
+_spider._spider();
+
+//定时抓取
+schedule.scheduleJob({hour: 10,minute: 28}, () => {
+    let t = new Date();
+    let s = t.getFullYear() + '-' + (t.getMonth() + 1) + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes();
+    console.log('===========schedule', s);
+})
+
 app.use(express.static('./templ'))
 app.listen(options,() => {
     console.log(`Server runing at http://${ options.host }:${ options.port }/`);
