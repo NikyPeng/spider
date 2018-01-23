@@ -17,6 +17,6 @@ module.exports = {
         /*let y = d.getFullYear(),
             m = (d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1),
             da = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();*/
-        return new Date(d)
+        return new Date(d).getTime()
     }
 }

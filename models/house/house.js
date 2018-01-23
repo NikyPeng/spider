@@ -19,9 +19,11 @@ const houseSche = mongoose.Schema({
     rent_price: Number,             //房租
     tags: String,                   //特色（0-精装修 1-家电齐全、2-押一付一、3-市政供暖、4-临近地铁、5-单身公寓、6-随时入住、7-交通便利、8-免中介费、9-首次出租、a-配套齐全、b-采光好）
     village: String,                //小区
-    release_time: Date,             //发布时间
+    release_time: Number,             //发布时间
     agent: String,                  //经纪人
     agent_intr_url: String,         //经纪人介绍
+    create_time: Number,
+    update_time: Number,
 });
 
 const House = mongoose.model('House', houseSche);

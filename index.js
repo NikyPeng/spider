@@ -59,7 +59,8 @@ app.use(history());
             res.end();
         })
     });*/
-const _spider = spider({host: 'http://zu.house.163.com',uri: "/bj/search/0-0-0-0-0-0-0-0-0-0-0-0.html", page: 100});     //http://www.ziroom.com/
+const _spider = spider({host: 'http://zu.house.163.com',uri: "/bj/search/0-0-0-0-0-0-0-0-0-0-0-0.html", page: 36});     //http://www.ziroom.com/
+//_spider.turnPageSpider();
 _spider._spider();
 
 //定时抓取
